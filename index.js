@@ -29,7 +29,7 @@
 
 
 //Import our module to handle operations
-import { add, subtract, multiply, divide } from './modules/operation.js';
+//import { add, subtract, multiply, divide } from './modules/operation.js';
 
 /** @class Calculator representing a calculator. */
 class Calculator {
@@ -44,12 +44,15 @@ class Calculator {
     constructor(display, buttons) {
         /** @private */ this.input = '';
         /** @private */ this.inputs = [];
+        /** @private */ this.operator = '';
+        /** @private */ this.result = 0;
         /** @private */ this.display = display;
         /** @private */ this.buttons = buttons;
     }
 
     init() {
         this.bindButtonsWithHandler();
+        this.displayInput();
     }
 
     /**
@@ -63,6 +66,11 @@ class Calculator {
         // let value = $(this).val();
         // if (!isNaN(parseInt(value))) displayInput(value);
         // else handleOperator($(this).attr('id'));
+    }
+
+    getResult() {
+        console.log(this.input[0], this.input[1]);
+        return this.inputs[0] + this.inputs[1];
     }
 
     /**
@@ -90,10 +98,17 @@ class Calculator {
     /**
     * Update the inputs property
     *
-    * @return {string[]} Return an array of input.
+    * @return {number[]} Return an array of input.
     */
-    updateInputs() {
-        this.inputs.push(this.input);
+    updateInputs(operator) {
+        this.inputs.push(parseInt(this.input));
+        if (this.operator) {
+            console.log(this.input);
+            console.log(this.getResult());
+            this.operator = operator;
+        } else {
+            this.operator = operator;
+        }
         this.clearInput();
         return this.inputs;
     }
@@ -114,7 +129,7 @@ class Calculator {
     * @return {string} Return the value of a button.
     */
     displayInput() {
-        this.display.html(input);
+        this.display.html(this.result);
     }
 
     /**
@@ -131,7 +146,9 @@ class Calculator {
             //update the input value only if the value is a number
             if (!isNaN(value)) calculator.updateInput(value);
             //otherwise, update inputs
-            else calculator.updateInputs();
+            else calculator.updateInputs(this.id);
+
+
         }
     }
 
