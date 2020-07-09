@@ -114,6 +114,9 @@ class Calculator {
             case 'divide':
                 this.setResult(r / i)
                 break;
+            case 'clear':
+                this.setResult(0)
+                break;
         }
         this.clearInput();
         this.displayValue(this.result);
@@ -125,8 +128,32 @@ class Calculator {
    * @param {string} - A string that represent the operator.
    */
     updateOperator(operator) {
-        if (operator !== 'equals') this.operator = operator;
-        else this.clearResult();;
+        switch (operator) {
+            case 'decimal':
+                console.log('decimal');
+                break;
+            case 'clear':
+                this.clearAll();
+                break;
+            case 'equals':
+                this.clearResult();
+                break;
+            default:
+                this.operator = operator;
+                break;
+        }
+        // //here some code here to handle decimal operator
+        // if (operator)
+        //     //here some code here to handle clear operator
+        //     if (operator !== 'equals') this.operator = operator;
+        //     else this.clearResult();
+    }
+
+    clearAll() {
+        this.setResult(0);
+        this.clearInput();
+        this.operator = '';
+        this.displayValue(this.result);
     }
 
     /**
