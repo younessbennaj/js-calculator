@@ -82,6 +82,7 @@ class Calculator {
     updateInput(value) {
         //update only if the value is a number
         if (!isNaN(value)) this.input = this.input + value;
+        this.displayValue(this.input);
         return this.input;
     }
 
