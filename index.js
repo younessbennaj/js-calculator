@@ -43,7 +43,6 @@ class Calculator {
      */
     constructor(display, buttons) {
         /** @private */ this.input = '';
-        /** @private */ this.inputs = [];
         /** @private */ this.operator = '';
         /** @private */ this.result = 0;
         /** @private */ this.display = display;
@@ -64,9 +63,6 @@ class Calculator {
     */
     getButtonValue(button) {
         return $(button).val();
-        // let value = $(this).val();
-        // if (!isNaN(parseInt(value))) displayInput(value);
-        // else handleOperator($(this).attr('id'));
     }
 
     getResult() {
@@ -82,8 +78,25 @@ class Calculator {
     updateInput(value) {
         //update only if the value is a number
         if (!isNaN(value)) this.input = this.input + value;
+        //bind with the view
         this.displayValue(this.input);
         return this.input;
+    }
+
+    updateResult() {
+        let input = parseInt(this.input);
+        switch (this.operator) {
+            case '':
+                this.result = input;
+                this.clearInput();
+                this.displayValue(this.result);
+                break;
+            case 'add':
+                this.result = this.result + input;
+                this.clearInput();
+                this.displayValue(this.result);
+                break;
+        }
     }
 
     /**
@@ -98,7 +111,6 @@ class Calculator {
 
     clearOperator() {
         this.operator = '';
-        console.log(this.operator);
     }
 
     /**
@@ -107,19 +119,14 @@ class Calculator {
     * @return {number[]} Return an array of input.
     */
     updateInputs(operator) {
-        this.inputs.push(parseInt(this.input));
+        console.log(!!this.input);
+        if (this.input !== '') this.inputs.push(parseInt(this.input));
         this.clearInput();
         return this.inputs;
     }
 
     updateOperator(operator) {
         //if there is already an operator => get the result of the operation
-        if (this.operator) {
-            let result = this.getResult();
-            this.displayValue(result);
-            this.inputs = [];
-            this.inputs.push(result);
-        }
         if (operator !== 'equals') this.operator = operator;
         else this.clearOperator();
     }
@@ -156,10 +163,11 @@ class Calculator {
             let value = calculator.getButtonValue(this);
             //update the input value only if the value is a number
             if (!isNaN(value)) calculator.updateInput(value);
-            //otherwise, update inputs
+            //otherwise, update result
             else {
+                calculator.updateResult();
                 //update the array of inputs
-                calculator.updateInputs();
+                // calculator.updateInputs();
                 //update the operator props
                 calculator.updateOperator(this.id);
             }
