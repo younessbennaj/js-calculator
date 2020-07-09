@@ -102,7 +102,6 @@ class Calculator {
         let r = this.getResult();
         switch (this.operator) {
             case '':
-                console.log(i);
                 this.setResult(i);
                 break;
             case 'add':
@@ -141,6 +140,8 @@ class Calculator {
             case 'equals':
                 this.clearResult();
                 break;
+            case 'zero':
+                break;
             default:
                 this.operator = operator;
                 break;
@@ -151,6 +152,7 @@ class Calculator {
         this.setResult(0);
         this.clearInput();
         this.operator = '';
+        // this.decimalIsClicked = false;
         this.displayValue(this.result);
     }
 
@@ -203,31 +205,41 @@ class Calculator {
         //here this => Calculator() instance
         let calculator = this;
         return function () {
-            //here this => button element
             let value = calculator.getButtonValue(this);
-            //if it doesn't begin with a 0 AND (is a number OR it's the floating operator)
-            if (calculator.isBeginByZero(calculator.input, value) && (!isNaN(value) || (value === '.' && !calculator.decimalIsClicked))) {
-                //two . in one number should not be accepted
-                console.log(value === '.' && !calculator.decimalIsClicked);
-                if (value === '.' && !calculator.decimalIsClicked) calculator.decimalIsClicked = true;
+            let condition = calculator.validInput(calculator.input, value);
+            if (condition) {
+                if (value === '.') calculator.decimalIsClicked = true;
                 calculator.updateInput(value);
-            }
-            //otherwise, update result
-            else {
+            } else if (calculator.input !== '') {
+                console.log(calculator.input);
                 calculator.updateResult();
-                //update the array of inputs
-                // calculator.updateInputs();
-                //update the operator props
                 calculator.updateOperator(this.id);
             }
-
-
         }
     }
+
+    validInput(input, val) {
+
+        //input: input, the current input in the data structure
+        //input: val, the value of a clickable element
+
+        if (val === '.') {
+            return !this.decimalIsClicked;
+        }
+
+        return (
+            //it wont begin with by 0 AND
+            this.itWontBeginByZero(input, val) &&
+            //it is a number OR a '.' AND
+            (!isNaN(val) || val === '.')
+        );
+    }
+
+
     //input current value of input
     //value of the button clicked
     //return true if the input 
-    isBeginByZero(input, value) {
+    itWontBeginByZero(input, value) {
         //If it's a '0' and the input string is empty => return false
         //else return true
         return !(input.length === 0 && value === '0')
