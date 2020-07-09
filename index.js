@@ -68,7 +68,8 @@ class Calculator {
     * @return {string} Return the value of a button.
     */
     updateInput(value) {
-        this.input = this.input + value;
+        //update only if the value is a number
+        if (!isNaN(value)) this.input = this.input + value;
         return this.input;
     }
 
