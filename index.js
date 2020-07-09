@@ -34,21 +34,28 @@ class Calculator {
      *
      * @constructor
      * @author: me
-     * @param {Object} display - The dom element to display input and result.
+     * @param {Object} display - A reference to the dom element to display input and result.
+     * @param {Object[]} buttons - A reference to the buttons dom element.
      */
-    constructor(display) {
+    constructor(display, buttons) {
         /** @private */ this.input = '';
         /** @private */ this.inputs = [];
         /** @private */ this.display = display;
+        /** @private */ this.buttons = buttons;
+    }
+
+    init() {
+        this.bindButtonsWithHandler();
     }
 
     /**
-    * Get the value of the clicked buttons
+    * Get the value of a clicked button
     *
+    * @return {Object} The button object with need to refer.
     * @return {string} The value of a button.
     */
-    getButtonValue() {
-        return $(this).val();
+    getButtonValue(button) {
+        return $(button).val();
         // let value = $(this).val();
         // if (!isNaN(parseInt(value))) displayInput(value);
         // else handleOperator($(this).attr('id'));
@@ -83,6 +90,29 @@ class Calculator {
     displayInput() {
         this.display.html(input);
     }
+
+    /**
+    * Return an event handler to attach to a button element
+    *
+    * @return {Object} Return the function to call when a click event is triggered.
+    */
+    getClickEventHandler() {
+        //get a reference to the Calculator instance
+        let calculator = this;
+        return function () {
+            console.log(this);
+            let value = calculator.getButtonValue(this);
+            console.log(value);
+            // console.log(value);
+        }
+    }
+
+    bindButtonsWithHandler() {
+        for (let button of this.buttons) {
+            //set our buttons with an event click handler
+            $(button).on('click', this.getClickEventHandler());
+        }
+    }
 }
 
 // function handleOperator(operator) {
@@ -94,8 +124,11 @@ class Calculator {
 // }
 
 let displayElement = $('#display');
+let buttonElements = $('button');
+console.log(typeof buttonElements[0]);
 
-let calculator = new Calculator(displayElement);
+let calculator = new Calculator(displayElement, buttonElements);
+calculator.init();
 
 // $(window).on('load', () => {
 //     let calculator = new Calculator();
