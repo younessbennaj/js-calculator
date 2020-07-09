@@ -27,20 +27,78 @@
 
 /*/
 
-function getButtonValue() {
-    console.log(typeof $(this).val());
-    console.log($(this).val());
-    displayInput($(this).val());
+/** @class Calculator representing a calculator. */
+class Calculator {
+    /**
+     * Creates an instance of Calculator.
+     *
+     * @constructor
+     * @author: me
+     * @param {Object} display - The dom element to display input and result.
+     */
+    constructor(display) {
+        /** @private */ this.input = '';
+        /** @private */ this.inputs = [];
+        /** @private */ this.display = display;
+    }
+
+    /**
+    * Get the value of the clicked buttons
+    *
+    * @return {string} The value of a button.
+    */
+    getButtonValue() {
+        return $(this).val();
+        // let value = $(this).val();
+        // if (!isNaN(parseInt(value))) displayInput(value);
+        // else handleOperator($(this).attr('id'));
+    }
+
+    /**
+    * Update the input property
+    *
+    * @param {string} - A value to add at the input value.
+    * @return {string} Return the value of a button.
+    */
+    updateInput(value) {
+        this.input = this.input + value;
+        return this.input;
+    }
+
+    /**
+    * Get the array of inputs
+    *
+    * @return {string[]} Return the array of inputs.
+    */
+    getInputs() {
+        return this.inputs;
+    }
+
+    /**
+    * Display the current value of the input property in the display element
+    *
+    * @param {string} - A value to add at the input value.
+    * @return {string} Return the value of a button.
+    */
+    displayInput() {
+        this.display.html(input);
+    }
 }
 
-function displayInput(input) {
-    let value = $('#display').html() + input;
-    $('#display').html(value);
-}
+// function handleOperator(operator) {
+//     console.log(operator);
+//     switch (operator) {
+//         case 'add':
 
-$(window).on('load', () => {
-    console.log('JS Calculator');
+//     }
+// }
 
-    $('button').on('click', getButtonValue);
-})
+let displayElement = $('#display');
+
+let calculator = new Calculator(displayElement);
+
+// $(window).on('load', () => {
+//     let calculator = new Calculator();
+//     // $('button').on('click', getButtonValue);
+// })
 
