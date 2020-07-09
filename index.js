@@ -65,10 +65,6 @@ class Calculator {
         return $(button).val();
     }
 
-    getResult() {
-        return this.inputs[0] + this.inputs[1];
-    }
-
     /**
     * Update the input property
     *
@@ -83,20 +79,33 @@ class Calculator {
         return this.input;
     }
 
+    clearResult() {
+        this.input = this.result;
+        this.operator = '';
+        this.result = 0;
+    }
+
     updateResult() {
         let input = parseInt(this.input);
         switch (this.operator) {
             case '':
                 this.result = input;
-                this.clearInput();
-                this.displayValue(this.result);
                 break;
             case 'add':
                 this.result = this.result + input;
-                this.clearInput();
-                this.displayValue(this.result);
+                break;
+            case 'subtract':
+                this.result = this.result - input;
+                break;
+            case 'multiply':
+                this.result = this.result * input;
+                break;
+            case 'divide':
+                this.result = this.result / input;
                 break;
         }
+        this.clearInput();
+        this.displayValue(this.result);
     }
 
     /**
@@ -107,10 +116,6 @@ class Calculator {
 
     clearInput() {
         this.input = '';
-    }
-
-    clearOperator() {
-        this.operator = '';
     }
 
     /**
@@ -128,7 +133,7 @@ class Calculator {
     updateOperator(operator) {
         //if there is already an operator => get the result of the operation
         if (operator !== 'equals') this.operator = operator;
-        else this.clearOperator();
+        else this.clearResult();;
     }
 
     /**
