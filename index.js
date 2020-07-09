@@ -52,7 +52,8 @@ class Calculator {
 
     init() {
         this.bindButtonsWithHandler();
-        this.displayInput();
+        //display 0 by default
+        this.displayValue(this.result);
     }
 
     /**
@@ -69,7 +70,6 @@ class Calculator {
     }
 
     getResult() {
-        console.log(this.input[0], this.input[1]);
         return this.inputs[0] + this.inputs[1];
     }
 
@@ -95,6 +95,11 @@ class Calculator {
         this.input = '';
     }
 
+    clearOperator() {
+        this.operator = '';
+        console.log(this.operator);
+    }
+
     /**
     * Update the inputs property
     *
@@ -102,15 +107,20 @@ class Calculator {
     */
     updateInputs(operator) {
         this.inputs.push(parseInt(this.input));
-        if (this.operator) {
-            console.log(this.input);
-            console.log(this.getResult());
-            this.operator = operator;
-        } else {
-            this.operator = operator;
-        }
         this.clearInput();
         return this.inputs;
+    }
+
+    updateOperator(operator) {
+        //if there is already an operator => get the result of the operation
+        if (this.operator) {
+            let result = this.getResult();
+            this.displayValue(result);
+            this.inputs = [];
+            this.inputs.push(result);
+        }
+        if (operator !== 'equals') this.operator = operator;
+        else this.clearOperator();
     }
 
     /**
@@ -123,13 +133,13 @@ class Calculator {
     }
 
     /**
-    * Display the current value of the input property in the display element
+    * Display a value on the display element
     *
-    * @param {string} - A value to add at the input value.
+    * @param {string} - A value to display.
     * @return {string} Return the value of a button.
     */
-    displayInput() {
-        this.display.html(this.result);
+    displayValue(value) {
+        this.display.html(value);
     }
 
     /**
@@ -146,7 +156,12 @@ class Calculator {
             //update the input value only if the value is a number
             if (!isNaN(value)) calculator.updateInput(value);
             //otherwise, update inputs
-            else calculator.updateInputs(this.id);
+            else {
+                //update the array of inputs
+                calculator.updateInputs();
+                //update the operator props
+                calculator.updateOperator(this.id);
+            }
 
 
         }
