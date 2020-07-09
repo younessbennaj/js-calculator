@@ -63,7 +63,6 @@ class Calculator {
     */
     updateInput(value) {
         //update only if the value is a number
-        console.log(value);
         this.input = this.input + value;
         //bind with the view
         this.displayValue(this.input);
@@ -97,10 +96,12 @@ class Calculator {
     * @return {number} Return the value of result.
     */
     updateResult() {
-        let i = parseFloat(this.input);
+        //|| '0' => manage if the input string is empty
+        let i = parseFloat(this.input || '0');
         let r = this.getResult();
         switch (this.operator) {
             case '':
+                console.log(i);
                 this.setResult(i);
                 break;
             case 'add':
@@ -143,11 +144,6 @@ class Calculator {
                 this.operator = operator;
                 break;
         }
-        // //here some code here to handle decimal operator
-        // if (operator)
-        //     //here some code here to handle clear operator
-        //     if (operator !== 'equals') this.operator = operator;
-        //     else this.clearResult();
     }
 
     clearAll() {
@@ -208,8 +204,10 @@ class Calculator {
         return function () {
             //here this => button element
             let value = calculator.getButtonValue(this);
-            //update the input value only if the value is a number
-            if (!isNaN(value) || value === '.') calculator.updateInput(value);
+            //if it doesn't begin with a 0 AND (is a number OR it's the floating operator)
+            if (calculator.isBeginByZero(calculator.input, value) && (!isNaN(value) || value === '.')) {
+                calculator.updateInput(value);
+            }
             //otherwise, update result
             else {
                 calculator.updateResult();
@@ -221,6 +219,14 @@ class Calculator {
 
 
         }
+    }
+    //input current value of input
+    //value of the button clicked
+    //return true if the input 
+    isBeginByZero(input, value) {
+        //If it's a '0' and the input string is empty => return false
+        //else return true
+        return !(input.length === 0 && value === '0')
     }
 
     /**
