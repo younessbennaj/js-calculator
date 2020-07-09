@@ -63,7 +63,8 @@ class Calculator {
     */
     updateInput(value) {
         //update only if the value is a number
-        if (!isNaN(value)) this.input = this.input + value;
+        console.log(value);
+        this.input = this.input + value;
         //bind with the view
         this.displayValue(this.input);
         return this.input;
@@ -96,7 +97,7 @@ class Calculator {
     * @return {number} Return the value of result.
     */
     updateResult() {
-        let i = parseInt(this.input);
+        let i = parseFloat(this.input);
         let r = this.getResult();
         switch (this.operator) {
             case '':
@@ -208,7 +209,7 @@ class Calculator {
             //here this => button element
             let value = calculator.getButtonValue(this);
             //update the input value only if the value is a number
-            if (!isNaN(value)) calculator.updateInput(value);
+            if (!isNaN(value) || value === '.') calculator.updateInput(value);
             //otherwise, update result
             else {
                 calculator.updateResult();
