@@ -73,6 +73,21 @@ class Calculator {
         return this.input;
     }
 
+    clearInput() {
+        this.input = '';
+    }
+
+    /**
+    * Update the inputs property
+    *
+    * @return {string[]} Return an array of input.
+    */
+    updateInputs() {
+        this.inputs.push(this.input);
+        this.clearInput();
+        return this.inputs;
+    }
+
     /**
     * Get the array of inputs
     *
@@ -103,8 +118,10 @@ class Calculator {
         return function () {
             //here this => button element
             let value = calculator.getButtonValue(this);
-            //update the input value
-            calculator.updateInput(value);
+            //update the input value only if the value is a number
+            if (!isNaN(value)) calculator.updateInput(value);
+            //otherwise, update inputs
+            else calculator.updateInputs();
         }
     }
 
