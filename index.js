@@ -30,6 +30,12 @@
 function getButtonValue() {
     console.log(typeof $(this).val());
     console.log($(this).val());
+    displayInput($(this).val());
+}
+
+function displayInput(input) {
+    let value = $('#display').html() + input;
+    $('#display').html(value);
 }
 
 $(window).on('load', () => {
