@@ -1,33 +1,3 @@
-/*/
-
-    * HELP *
-    
-    => My calculator should contain a clickable element containing an = 
-    (equal sign) with a corresponding id="equals"
-
-    => My calculator should contain 10 clickable elements containing one number 
-    each from 0-9
-
-    => My calculator should contain 4 clickable elements each containing one of the 4 primary mathematical operators
-
-    => At any time, pressing the clear button clears the input and output values,
-    and returns the calculator to its initialized state; 0 should be shown in the element with the id of display
-
-    => 1) As I input numbers, I should be able to see my input in the element 
-    with the id of display
-
-    => In any order, I should be able to add, subtract, multiply and divide a
-    chain of numbers of any length, and when I hit =, the correct result should be shown in the element with the id of display
-
-    => When inputting numbers, my calculator should not allow a number to begin 
-    with multiple zeros (form validation);
-
-    => When the decimal element is clicked, a . should append to the currently 
-    displayed value; two . in one number should not be accepted;
-
-/*/
-
-
 //Import our module to handle operations
 //import { add, subtract, multiply, divide } from './modules/operation.js';
 
@@ -59,7 +29,7 @@ class Calculator {
     /**
     * Update the input property
     *
-    * @param {string} - A value to add at the input value.
+    * @param {string} value - A value to add at the input value.
     * @return {string} Return the value of a button.
     */
     updateInput(value) {
@@ -73,7 +43,7 @@ class Calculator {
     /**
     * Set a value for the result property
     *
-    * @param {number} - A value number to set.
+    * @param {number} value - A value number to set.
     * @return {number} Return the value of result.
     */
     setResult(value) {
@@ -93,8 +63,6 @@ class Calculator {
     /**
     * Update the value of the result property according the operator property
     *
-    * @param {number} - A value number to set.
-    * @return {number} Return the value of result.
     */
     updateResult() {
         //|| '0' => manage if the input string is empty
@@ -127,7 +95,7 @@ class Calculator {
     /**
    * Update the value of the operator property.
    *
-   * @param {string} - A string that represent the operator.
+   * @param {string} operator - A string that represent the operator.
    */
     updateOperator(operator) {
         switch (operator) {
@@ -148,22 +116,28 @@ class Calculator {
         }
     }
 
+
+    /**
+    * Reset all the dynamic property
+    *
+    */
     clearAll() {
         this.setResult(0);
         this.clearInput();
         this.operator = '';
-        // this.decimalIsClicked = false;
+        this.decimalIsClicked = false;
         this.displayValue(this.result);
     }
 
     /**
-    * Clear the input property
+    * Clear the input property and reset the decimalIsClicked property
     *
     * @return {string[]} Return an array of input.
     */
 
     clearInput() {
         this.input = '';
+        this.decimalIsClicked = false;
     }
 
     /**
@@ -173,13 +147,14 @@ class Calculator {
     clearResult() {
         this.input = this.result;
         this.operator = '';
+        this.decimalIsClicked = false;
         this.result = 0;
     }
 
     /**
     * Display a value on the display element
     *
-    * @param {string} - A value to display.
+    * @param {string} value - A value to display.
     * @return {string} Return the value of a button.
     */
     displayValue(value) {
@@ -189,7 +164,7 @@ class Calculator {
     /**
     * Get the value of a clicked button
     *
-    * @return {Object} The button object with need to refer.
+    * @param {Object} button - The button object with need to refer.
     * @return {string} The value of a button.
     */
     getButtonValue(button) {
@@ -211,22 +186,23 @@ class Calculator {
                 if (value === '.') calculator.decimalIsClicked = true;
                 calculator.updateInput(value);
             } else if (calculator.input !== '') {
-                console.log(calculator.input);
                 calculator.updateResult();
                 calculator.updateOperator(this.id);
             }
         }
     }
 
+    /**
+    * Return an event handler to attach to a button element
+    * @param {string} input - the current input value in the data structure.
+    * @param {string} val - the value of a clickable element.
+    *
+    * @return {Object} Return the function to call when a click event is triggered.
+    */
     validInput(input, val) {
-
-        //input: input, the current input in the data structure
-        //input: val, the value of a clickable element
-
         if (val === '.') {
             return !this.decimalIsClicked;
         }
-
         return (
             //it wont begin with by 0 AND
             this.itWontBeginByZero(input, val) &&
@@ -235,7 +211,11 @@ class Calculator {
         );
     }
 
-
+    /**
+    * Return an event handler to attach to a button element
+    *
+    * @return {Object} Return a boolean who tell us if it wont begin by a 0
+    */
     //input current value of input
     //value of the button clicked
     //return true if the input 
