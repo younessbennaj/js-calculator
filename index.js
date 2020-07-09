@@ -97,16 +97,19 @@ class Calculator {
     * @return {Object} Return the function to call when a click event is triggered.
     */
     getClickEventHandler() {
-        //get a reference to the Calculator instance
+        //here this => Calculator() instance
         let calculator = this;
         return function () {
-            console.log(this);
+            //here this => button element
             let value = calculator.getButtonValue(this);
-            console.log(value);
-            // console.log(value);
+            //update the input value
+            calculator.updateInput(value);
         }
     }
 
+    /**
+    * Bind the buttons with an event handler
+    */
     bindButtonsWithHandler() {
         for (let button of this.buttons) {
             //set our buttons with an event click handler
