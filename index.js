@@ -85,23 +85,44 @@ class Calculator {
         this.result = 0;
     }
 
+    /**
+    * Set a value for the result property
+    *
+    * @param {number} - A value number to set.
+    * @return {number} Return the value of result.
+    */
+    setResult(value) {
+        this.result = value;
+        return this.result;
+    }
+
+    /**
+    * Get the value of the result property
+    *
+    * @return {number} Return the value of result.
+    */
+    getResult() {
+        return this.result;
+    }
+
     updateResult() {
-        let input = parseInt(this.input);
+        let i = parseInt(this.input);
+        let r = this.getResult();
         switch (this.operator) {
             case '':
-                this.result = input;
+                this.setResult(i);
                 break;
             case 'add':
-                this.result = this.result + input;
+                this.setResult(r + i);
                 break;
             case 'subtract':
-                this.result = this.result - input;
+                this.setResult(r - i);
                 break;
             case 'multiply':
-                this.result = this.result * input;
+                this.setResult(r * i);
                 break;
             case 'divide':
-                this.result = this.result / input;
+                this.setResult(r / i)
                 break;
         }
         this.clearInput();
