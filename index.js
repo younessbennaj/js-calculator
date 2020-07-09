@@ -56,16 +56,6 @@ class Calculator {
     }
 
     /**
-    * Get the value of a clicked button
-    *
-    * @return {Object} The button object with need to refer.
-    * @return {string} The value of a button.
-    */
-    getButtonValue(button) {
-        return $(button).val();
-    }
-
-    /**
     * Update the input property
     *
     * @param {string} - A value to add at the input value.
@@ -77,12 +67,6 @@ class Calculator {
         //bind with the view
         this.displayValue(this.input);
         return this.input;
-    }
-
-    clearResult() {
-        this.input = this.result;
-        this.operator = '';
-        this.result = 0;
     }
 
     /**
@@ -105,6 +89,12 @@ class Calculator {
         return this.result;
     }
 
+    /**
+    * Update the value of the result property according the operator property
+    *
+    * @param {number} - A value number to set.
+    * @return {number} Return the value of result.
+    */
     updateResult() {
         let i = parseInt(this.input);
         let r = this.getResult();
@@ -130,6 +120,16 @@ class Calculator {
     }
 
     /**
+   * Update the value of the operator property.
+   *
+   * @param {string} - A string that represent the operator.
+   */
+    updateOperator(operator) {
+        if (operator !== 'equals') this.operator = operator;
+        else this.clearResult();;
+    }
+
+    /**
     * Clear the input property
     *
     * @return {string[]} Return an array of input.
@@ -140,30 +140,13 @@ class Calculator {
     }
 
     /**
-    * Update the inputs property
+    * Clear the result property - set it to 0. Also clear the operator property.
     *
-    * @return {number[]} Return an array of input.
     */
-    updateInputs(operator) {
-        console.log(!!this.input);
-        if (this.input !== '') this.inputs.push(parseInt(this.input));
-        this.clearInput();
-        return this.inputs;
-    }
-
-    updateOperator(operator) {
-        //if there is already an operator => get the result of the operation
-        if (operator !== 'equals') this.operator = operator;
-        else this.clearResult();;
-    }
-
-    /**
-    * Get the array of inputs
-    *
-    * @return {string[]} Return the array of inputs.
-    */
-    getInputs() {
-        return this.inputs;
+    clearResult() {
+        this.input = this.result;
+        this.operator = '';
+        this.result = 0;
     }
 
     /**
@@ -174,6 +157,16 @@ class Calculator {
     */
     displayValue(value) {
         this.display.html(value);
+    }
+
+    /**
+    * Get the value of a clicked button
+    *
+    * @return {Object} The button object with need to refer.
+    * @return {string} The value of a button.
+    */
+    getButtonValue(button) {
+        return $(button).val();
     }
 
     /**
