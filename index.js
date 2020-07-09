@@ -27,6 +27,10 @@
 
 /*/
 
+
+//Import our module to handle operations
+import { add, subtract, multiply, divide } from './modules/operation.js';
+
 /** @class Calculator representing a calculator. */
 class Calculator {
     /**
@@ -72,6 +76,12 @@ class Calculator {
         if (!isNaN(value)) this.input = this.input + value;
         return this.input;
     }
+
+    /**
+    * Clear the input property
+    *
+    * @return {string[]} Return an array of input.
+    */
 
     clearInput() {
         this.input = '';
@@ -136,23 +146,9 @@ class Calculator {
     }
 }
 
-// function handleOperator(operator) {
-//     console.log(operator);
-//     switch (operator) {
-//         case 'add':
-
-//     }
-// }
-
 let displayElement = $('#display');
 let buttonElements = $('button');
-console.log(typeof buttonElements[0]);
 
 let calculator = new Calculator(displayElement, buttonElements);
 calculator.init();
-
-// $(window).on('load', () => {
-//     let calculator = new Calculator();
-//     // $('button').on('click', getButtonValue);
-// })
 
