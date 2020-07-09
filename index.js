@@ -47,6 +47,7 @@ class Calculator {
         /** @private */ this.result = 0;
         /** @private */ this.display = display;
         /** @private */ this.buttons = buttons;
+        this.decimalIsClicked = false;
     }
 
     init() {
@@ -205,7 +206,10 @@ class Calculator {
             //here this => button element
             let value = calculator.getButtonValue(this);
             //if it doesn't begin with a 0 AND (is a number OR it's the floating operator)
-            if (calculator.isBeginByZero(calculator.input, value) && (!isNaN(value) || value === '.')) {
+            if (calculator.isBeginByZero(calculator.input, value) && (!isNaN(value) || (value === '.' && !calculator.decimalIsClicked))) {
+                //two . in one number should not be accepted
+                console.log(value === '.' && !calculator.decimalIsClicked);
+                if (value === '.' && !calculator.decimalIsClicked) calculator.decimalIsClicked = true;
                 calculator.updateInput(value);
             }
             //otherwise, update result
